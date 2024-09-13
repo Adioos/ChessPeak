@@ -8,18 +8,17 @@ class ChessBoard extends ActiveRecord
 {
     public $rows = 8;
     public $columns = 8;
+    public $letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
     public function getBoard()
     {
-        $letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-
         $numbers = range(8, 1);
 
         $board = [];
 
         // Добавляем верхние буквы
         $board[0][0] = ''; // пустая ячейка в углу
-        foreach ($letters as $letter) {
+        foreach ($this->letters as $letter) {
             $board[0][] = $letter; // буквы сверху
         }
         $board[0][] = ''; // пустая ячейка в другом углу
@@ -44,7 +43,7 @@ class ChessBoard extends ActiveRecord
 
         // Добавляем нижние буквы
         $bottomRow = [''];
-        foreach ($letters as $letter) {
+        foreach ($this->letters as $letter) {
             $bottomRow[] = $letter;
         }
         $bottomRow[] = '';
