@@ -13,42 +13,41 @@ class ChessBoard extends ActiveRecord
     public function getBoard()
     {
         $numbers = range(8, 1);
-
         $board = [];
 
-        // Добавляем верхние буквы
-        $board[0][0] = ''; // пустая ячейка в углу
-        foreach ($this->letters as $letter) {
-            $board[0][] = $letter; // буквы сверху
-        }
-        $board[0][] = ''; // пустая ячейка в другом углу
-
-        // Генерируем клетки доски с номерами слева и справа
+        // Генерируем клетки доски
         for ($i = 0; $i < $this->rows; $i++) {
             $row = [];
-
             // Номер слева
             $row[] = $numbers[$i];
 
             // Клетки доски
             for ($j = 0; $j < $this->columns; $j++) {
-                $row[] = ($i + $j) % 2 === 0 ? 'white' : 'black';
+                $color = ($i + $j) % 2 === 0 ? 'white' : 'black';
+                $piece = '';
+
+                // Определяем фигуры
+                if ($i == 1) {
+                    $piece = 'pawn'; // Черные пешки
+                } elseif ($i == 6) {
+                    $piece = 'pawn'; // Белые пешки
+                } elseif ($i == 0) {
+                    $pieces = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
+                    $piece = $pieces[$j]; // Черные фигуры
+                } elseif ($i == 7) {
+                    $pieces = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
+                    $piece = $pieces[$j]; // Белые фигуры
+                }
+
+                $row[] = ['color' => $color, 'piece' => $piece];
             }
 
             // Номер справа
             $row[] = $numbers[$i];
-
             $board[] = $row;
         }
-
-        // Добавляем нижние буквы
-        $bottomRow = [''];
-        foreach ($this->letters as $letter) {
-            $bottomRow[] = $letter;
-        }
-        $bottomRow[] = '';
-        $board[] = $bottomRow;
 
         return $board;
     }
 }
+

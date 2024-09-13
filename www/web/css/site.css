@@ -87,11 +87,11 @@ a.desc:after {
     margin-bottom: 1rem;
 }
 
-/* Центрирование доски */
 .chess-board-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 /* Адаптивная шахматная доска */
@@ -111,8 +111,28 @@ a.desc:after {
 
 .cell {
     flex: 1;
-    width: 100%;
-    height: 100%;
     box-sizing: border-box;
     border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* Стили для букв и цифр */
+.header-cell {
+    background-color: #ddd;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.number-cell {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Верхняя и нижняя строки с буквами */
+.header {
+    background-color: #f0f0f0;
 }

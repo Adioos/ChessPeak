@@ -9,7 +9,12 @@ class ChessController extends Controller
 {
     public function actionIndex()
     {
-        $chessBoard = new ChessBoard();
-        return $this->render('index', ['board' => $chessBoard->getBoard()]);
+        $model = new ChessBoard();
+        $board = $model->getBoard();
+        $letters = $model->letters; // Get letters property
+        return $this->render('index', [
+            'board' => $board,
+            'letters' => $letters,
+        ]);
     }
 }
