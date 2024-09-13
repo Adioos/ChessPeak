@@ -43,17 +43,14 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/site/login']]
-                : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
+                ? ['label' => 'Register', 'url' => ['/auth/signup']]
+                : ['label' => 'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/auth/logout'], 'linkOptions' => ['data-method' => 'post']],
+            Yii::$app->user->isGuest
+                ? ['label' => 'Login', 'url' => ['/auth/login']]
+                : ''
         ]
     ]);
+
     NavBar::end();
     ?>
 </header>

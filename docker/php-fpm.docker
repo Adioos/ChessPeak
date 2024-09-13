@@ -5,4 +5,7 @@ RUN install-php-extensions gd intl sqlite3 pdo_mysql xdebug zip @composer
 
 RUN mkdir -p /var/www/web/assets && \
     chown -R www-data:www-data /var/www/web/assets && \
-    chmod -R 775 /var/www/web/assets
+    chmod -R 775 /var/www/web/assets && \
+    mkdir -p /var/www/runtime && \
+    chown -R www-data:www-data /var/www/runtime && \
+    chmod -R 775 /var/www/runtime
