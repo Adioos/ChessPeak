@@ -11,10 +11,8 @@ class ChessController extends Controller
     {
         $model = new ChessBoard();
         $board = $model->getBoard();
-        $letters = $model->letters; // Get letters property
         return $this->render('index', [
-            'board' => $board,
-            'letters' => $letters,
+            'board' => $board
         ]);
     }
 }

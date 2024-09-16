@@ -1,52 +1,57 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $board array */
-/* @var $letters array */
-
-use yii\helpers\Html;
-
+/**
+ * @var array $board
+ */
 ?>
 
-<div class="chess-board-wrapper">
-    <div class="chess-board">
-        <!-- Верхняя строка с буквами -->
-        <div class="row header">
-            <div class="cell header-cell"></div> <!-- Пустая ячейка для верхнего левого угла -->
-            <?php foreach ($letters as $letter): ?>
-                <div class="cell header-cell">
-                    <?= Html::encode($letter) ?>
-                </div>
+<div class="board">
+    <table border="1" class="board-table">
+        <!-- Верхние буквы -->
+        <tr>
+            <td class="label"></td> <!-- Пустой угол -->
+            <?php foreach ($board[1] as $colLetter => $piece): ?>
+                <td class="label"><?= $colLetter ?></td>
             <?php endforeach; ?>
-        </div>
+            <td class="label"></td> <!-- Пустой угол -->
+        </tr>
 
-        <!-- Основные строки доски с цифрами слева и справа -->
-        <?php foreach ($board as $row): ?>
-            <div class="row">
-                <div class="cell number-cell">
-                    <?= Html::encode($row[0]) ?>
-                </div>
-                <?php foreach (array_slice($row, 1, -1) as $cell): ?>
-                    <div class="cell"
-                         style="
-                                 background-color: <?= Html::encode($cell['color']) ?>;
-                                 ">
-                        <?= Html::encode($cell['piece']) ?>
-                    </div>
+        <?php foreach ($board as $rowNum => $row): ?>
+            <tr>
+                <!-- Левый столбец с цифрами -->
+                <td class="label"><?= $rowNum ?></td>
+
+                <?php foreach ($row as $colLetter => $piece): ?>
+                    <?php
+                    $isWhite = ($rowNum + array_search($colLetter, array_keys($row))) % 2 === 0;
+                    $colorClass = $isWhite ? 'white' : 'black';
+                    $icon = '';
+
+                    // Определение иконки для фигур
+                    if ($piece === 'пешка') {
+                        $icon = 'fa-chess-pawn';
+                    } elseif (!empty($piece)) {
+                        $icon = $piece; // Используем классы иконок
+                    }
+                    ?>
+                    <td class="<?= $colorClass ?>">
+                        <?php if ($icon): ?>
+                            <i class="fas <?= $icon ?> fa-3x" style="color: #b58863;"></i>
+                        <?php endif; ?>
+                    </td>
                 <?php endforeach; ?>
-                <div class="cell number-cell">
-                    <?= Html::encode(end($row)) ?>
-                </div>
-            </div>
+
+                <!-- Правый столбец с цифрами -->
+                <td class="label"><?= $rowNum ?></td>
+            </tr>
         <?php endforeach; ?>
 
-        <!-- Нижняя строка с буквами -->
-        <div class="row header">
-            <div class="cell header-cell"></div> <!-- Пустая ячейка для нижнего левого угла -->
-            <?php foreach ($letters as $letter): ?>
-                <div class="cell header-cell">
-                    <?= Html::encode($letter) ?>
-                </div>
+        <!-- Нижние буквы -->
+        <tr>
+            <td class="label"></td> <!-- Пустой угол -->
+            <?php foreach ($board[1] as $colLetter => $piece): ?>
+                <td class="label"><?= $colLetter ?></td>
             <?php endforeach; ?>
-        </div>
-    </div>
+            <td class="label"></td> <!-- Пустой угол -->
+        </tr>
+    </table>
 </div>

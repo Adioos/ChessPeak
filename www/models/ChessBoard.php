@@ -6,48 +6,38 @@ use yii\db\ActiveRecord;
 
 class ChessBoard extends ActiveRecord
 {
-    public $rows = 8;
-    public $columns = 8;
-    public $letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    public int $rows = 8;
+    public int $columns = 8;
+    public array $letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    public array $numbers = [8, 7, 6, 5, 4, 3, 2, 1];
+    public array $pieces = [
+        'fa-chess-rook',
+        'fa-chess-knight',
+        'fa-chess-bishop',
+        'fa-chess-queen',
+        'fa-chess-king',
+        'fa-chess-bishop',
+        'fa-chess-knight',
+        'fa-chess-rook'
+    ];
 
-    public function getBoard()
+    public function getBoard(): array
     {
-        $numbers = range(8, 1);
         $board = [];
 
-        // Генерируем клетки доски
-        for ($i = 0; $i < $this->rows; $i++) {
-            $row = [];
-            // Номер слева
-            $row[] = $numbers[$i];
+        // Добавляем фигуры для белых
+        $board[1] = array_combine($this->letters, $this->pieces);  // 1-я строка для основных фигур
+        $board[2] = array_fill(0, $this->columns, 'пешка');         // 2-я строка для пешек
 
-            // Клетки доски
-            for ($j = 0; $j < $this->columns; $j++) {
-                $color = ($i + $j) % 2 === 0 ? 'white' : 'black';
-                $piece = '';
-
-                // Определяем фигуры
-                if ($i == 1) {
-                    $piece = 'pawn'; // Черные пешки
-                } elseif ($i == 6) {
-                    $piece = 'pawn'; // Белые пешки
-                } elseif ($i == 0) {
-                    $pieces = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
-                    $piece = $pieces[$j]; // Черные фигуры
-                } elseif ($i == 7) {
-                    $pieces = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
-                    $piece = $pieces[$j]; // Белые фигуры
-                }
-
-                $row[] = ['color' => $color, 'piece' => $piece];
-            }
-
-            // Номер справа
-            $row[] = $numbers[$i];
-            $board[] = $row;
+        // Добавляем пустые клетки
+        for ($i = 3; $i <= 6; $i++) {
+            $board[$i] = array_fill(0, $this->columns, '');
         }
+
+        // Добавляем фигуры для черных
+        $board[7] = array_fill(0, $this->columns, 'пешка');         // 7-я строка для пешек
+        $board[8] = array_combine($this->letters, $this->pieces);  // 8-я строка для основных фигур
 
         return $board;
     }
 }
-
